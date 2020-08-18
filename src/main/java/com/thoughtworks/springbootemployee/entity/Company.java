@@ -4,22 +4,31 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name= "company")
+@Table(name = "company")
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer company_id;
+    @Column(name = "company_id")
+    private Integer companyId;
     private String name;
 
     @OneToMany(mappedBy = "company")
     private List<Employee> employee;
 
-    public Integer getCompany_id() {
-        return company_id;
+    public Company() {
+
     }
 
-    public void setCompany_id(Integer company_id) {
-        this.company_id = company_id;
+    public Company(String name) {
+        this.name = name;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     public String getName() {
@@ -36,9 +45,5 @@ public class Company {
 
     public void setEmployee(List<Employee> employee) {
         this.employee = employee;
-    }
-
-    public Company() {
-
     }
 }

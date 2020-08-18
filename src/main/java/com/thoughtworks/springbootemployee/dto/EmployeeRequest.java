@@ -1,11 +1,25 @@
 package com.thoughtworks.springbootemployee.dto;
 
+import com.thoughtworks.springbootemployee.entity.Employee;
+
 public class EmployeeRequest {
 
     private String name;
     private String gender;
-    private String age;
-    private Integer company_id;
+    private Integer age;
+    private Integer companyId;
+
+    public EmployeeRequest() {
+
+    }
+
+    public static Employee requestMapToEntity(EmployeeRequest employeeRequest) {
+        Employee employee = new Employee();
+        employee.setName(employeeRequest.getName());
+        employee.setAge(employeeRequest.getAge());
+        employee.setGender(employeeRequest.getGender());
+        return employee;
+    }
 
     public String getName() {
         return name;
@@ -23,19 +37,19 @@ public class EmployeeRequest {
         this.gender = gender;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
-    public Integer getCompany_id() {
-        return company_id;
+    public Integer getCompanyId() {
+        return companyId;
     }
 
-    public void setCompany_id(Integer company_id) {
-        this.company_id = company_id;
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 }

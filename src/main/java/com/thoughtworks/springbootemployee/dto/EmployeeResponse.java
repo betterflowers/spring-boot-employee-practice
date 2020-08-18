@@ -8,34 +8,50 @@ public class EmployeeResponse {
     private Integer id;
     private String name;
     private String gender;
-    private String company_name;
+    private String companyName;
+
+    public EmployeeResponse() {
+
+    }
+    
+    public static EmployeeResponse EntityMapToResponse(Employee employee) {
+        EmployeeResponse employeeResponse = new EmployeeResponse();
+        employeeResponse.setId(employee.getId());
+        employeeResponse.setName(employee.getName());
+        employeeResponse.setGender(employee.getGender());
+        employeeResponse.setCompanyName(employee.getCompany().getName());
+        return employeeResponse;
+    }
+
+    public Integer getId() {
+        return id;
+    }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
     public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public void setCompany_name(String company_name) {
-        this.company_name = company_name;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public EmployeeResponse() {
-
-    }
-    public static EmployeeResponse from(Employee employee){
-        EmployeeResponse employeeResponse = new EmployeeResponse();
-        employeeResponse.setId(employee.getEmployee_id());
-        employeeResponse.setName(employee.getName());
-        employeeResponse.setGender(employee.getGender());
-        Company company = new Company();
-        employeeResponse.setCompany_name(employee.getCompany().getName());
-        return employeeResponse;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

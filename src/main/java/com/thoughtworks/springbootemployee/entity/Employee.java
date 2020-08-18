@@ -1,5 +1,7 @@
 package com.thoughtworks.springbootemployee.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,24 +9,25 @@ import javax.persistence.*;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer employee_id;
+    private Integer id;
     private String name;
     private String gender;
     private Integer age;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="company_id")
+    @JoinColumn(name = "company_id")
     private Company company;
 
     public Employee() {
     }
 
-    public Integer getEmployee_id() {
-        return employee_id;
+    public Integer getId() {
+        return id;
     }
 
-    public void setEmployee_id(Integer employee_id) {
-        this.employee_id = employee_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
