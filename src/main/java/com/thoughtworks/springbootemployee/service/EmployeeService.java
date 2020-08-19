@@ -4,6 +4,8 @@ import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
+import com.thoughtworks.springbootemployee.exception.CompanyNotFonudException;
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
@@ -22,15 +24,11 @@ public class EmployeeService {
         this.companyRepository = companyRepository;
     }
 
-    public Employee addEmployee(EmployeeRequest employeeRequest) throws Exception {
-//        Employee employee = EmployeeRequest.requestMapToEntity(employeeRequest);
-        Company company = companyRepository.findById(employeeRequest.getCompanyId()).orElseThrow(Exception::new);
-        Employee employee = new Employee();
-        employee.setName(employeeRequest.getName());
-        employee.setAge(employeeRequest.getAge());
-        employee.setGender(employeeRequest.getGender());
+    public void addEmployee(EmployeeRequest employeeRequest) {
+        Employee employee = EmployeeRequest.requestMapToEntity(employeeRequest);
+        Company company = companyRepository.findById(employeeRequest.getCompanyId()).orElseThrow(EmployeeNotFoundException::new);
         employee.setCompany(company);
-        return employeeRepository.save(employee);
+        employeeRepository.save(employee);
     }
 
     public List<EmployeeResponse> getAllEmployees() {
@@ -39,5 +37,27 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
+    public void deleteEmployeeById(Integer employeeId) {
+        employeeRepository.deleteById(employeeId);
+    }
 
+    public EmployeeResponse getEmployeeById(Integer employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
+        EmployeeResponse employeeResponse = EmployeeResponse.EntityMapToResponse(employee);
+        return employeeResponse;
+    }
+
+    public List<EmployeeResponse> getEmployeeByGender(String gender) {
+        return employeeRepository.findByGender(gender).stream()
+                .map(EmployeeResponse::EntityMapToResponse)
+                .collect(Collectors.toList());
+    }
+
+    public void updateEmployeeById(Integer employeeId, EmployeeRequest employeeRequest) {
+        Employee employee = EmployeeRequest.requestMapToEntity(employeeRequest);
+        Company company = companyRepository.findById(employeeRequest.getCompanyId()).orElseThrow(CompanyNotFonudException::new);
+        employee.setId(employeeId);
+        employee.setCompany(company);
+        employeeRepository.save(employee);
+    }
 }
