@@ -8,6 +8,8 @@ import com.thoughtworks.springbootemployee.exception.CompanyNotFonudException;
 import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,5 +61,11 @@ public class EmployeeService {
         employee.setId(employeeId);
         employee.setCompany(company);
         employeeRepository.save(employee);
+    }
+
+    public List<EmployeeResponse> getEmployeeByPage(Pageable pageable) {
+        return employeeRepository.findAll(pageable).stream()
+                .map(EmployeeResponse::EntityMapToResponse)
+                .collect(Collectors.toList());
     }
 }

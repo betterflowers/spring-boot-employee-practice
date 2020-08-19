@@ -4,6 +4,10 @@ import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,5 +50,11 @@ public class EmployeeController {
     @PutMapping("/{employeeId}")
     public void updateEmployeeById(@PathVariable Integer employeeId, @RequestBody EmployeeRequest employeeRequest) {
         employeeService.updateEmployeeById(employeeId, employeeRequest);
+    }
+
+    @GetMapping(params = {"page", "pageSize"})
+    public List<EmployeeResponse> getEmployeesByPage(@RequestParam Integer page, @RequestParam Integer pageSize) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        return employeeService.getEmployeeByPage(pageable);
     }
 }

@@ -2,9 +2,10 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
-import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.exception.CompanyNotFonudException;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,10 +28,6 @@ public class CompanyService {
         companyRepository.save(company);
     }
 
-    public List<Company> getAllCompanies() {
-        return companyRepository.findAll();
-    }
-
     public Company getCompanyId(Integer companyId) {
         return companyRepository.findById(companyId).orElseThrow(CompanyNotFonudException::new);
     }
@@ -45,6 +42,9 @@ public class CompanyService {
         return company.getEmployee().stream()
                 .map(EmployeeResponse::EntityMapToResponse)
                 .collect(Collectors.toList());
+    }
 
+    public Page<Company> getCompanyByPage(Pageable pageable) {
+        return companyRepository.findAll(pageable);
     }
 }

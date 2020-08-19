@@ -2,8 +2,9 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
-import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.service.CompanyService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,11 +29,6 @@ public class CompanyController {
         companyService.addCompany(company);
     }
 
-    @GetMapping
-    public List<Company> getAllCompanies() {
-        return companyService.getAllCompanies();
-    }
-
     @DeleteMapping("/{companyId}")
     public void deleteCompany(@PathVariable Integer companyId) {
         companyService.deleteCompanyById(companyId);
@@ -46,5 +42,13 @@ public class CompanyController {
     @GetMapping("/{companyId}/employees")
     public List<EmployeeResponse> getEmployeesByCompanyId(@PathVariable Integer companyId) {
         return companyService.getEmployeeByCompanyId(companyId);
+    }
+
+    @GetMapping
+    public Page<Company> getCompanyByPage(Pageable pageable, @RequestParam(defaultValue = "true") boolean unpaged) {
+        if (unpaged) {
+            return companyService.getCompanyByPage(Pageable.unpaged());
+        }
+        return companyService.getCompanyByPage(pageable);
     }
 }
