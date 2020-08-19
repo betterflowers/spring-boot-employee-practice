@@ -1,11 +1,14 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
+import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.exception.CompanyNotFonudException;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
@@ -35,5 +38,13 @@ public class CompanyService {
     public void updateCompanyById(Integer companyId, Company company) {
         company.setCompanyId(companyId);
         companyRepository.save(company);
+    }
+
+    public List<EmployeeResponse> getEmployeeByCompanyId(Integer companyId) {
+        Company company = companyRepository.findById(companyId).orElseThrow(CompanyNotFonudException::new);
+        return company.getEmployee().stream()
+                .map(EmployeeResponse::EntityMapToResponse)
+                .collect(Collectors.toList());
+
     }
 }
