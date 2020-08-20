@@ -22,6 +22,10 @@ public class Employee {
     public Employee() {
     }
 
+    public Employee(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

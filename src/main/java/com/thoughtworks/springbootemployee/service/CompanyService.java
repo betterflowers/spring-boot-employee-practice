@@ -28,7 +28,7 @@ public class CompanyService {
         companyRepository.save(company);
     }
 
-    public Company getCompanyId(Integer companyId) {
+    public Company getCompanyById(Integer companyId) {
         return companyRepository.findById(companyId).orElseThrow(CompanyNotFonudException::new);
     }
 
