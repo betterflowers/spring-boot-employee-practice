@@ -1,6 +1,5 @@
 package com.thoughtworks.springbootemployee.integrationtest;
 
-import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;

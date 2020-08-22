@@ -92,7 +92,6 @@ public class CompanyIntegrationTest {
 
     }
 
-    //bug
     @Test
     public void should_return_one_employee_when_get_company_by_companyId_given_one_company_and_companyId() throws Exception {
 
@@ -111,4 +110,22 @@ public class CompanyIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("[0].companyName").value("oocl"));
     }
+
+    @Test
+    void should_return_1_when_get_company_by_page_given_2_companies_and_page_0_size_1()
+            throws Exception {
+        Company company1 = new Company();
+        company1.setName("cargosmart");
+        companyRepository.save(company1);
+
+        Company company2 = new Company();
+        company2.setName("oocl");
+        companyRepository.save(company2);
+
+        mockMvc
+                .perform(get("/companies?page=0&size=1&unpaged=false"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("numberOfElements").value(1));
+    }
+
 }
